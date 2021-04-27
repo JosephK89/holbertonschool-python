@@ -3,6 +3,6 @@ def print_last_digit(number):
     if number < 0:
         ld = (abs(number) % 10)
     else:
-        ld = number%10
-    print(ld, end="")
+        ld = number % 10
+    print("{:d}".format(ld), end="")
     return ld
