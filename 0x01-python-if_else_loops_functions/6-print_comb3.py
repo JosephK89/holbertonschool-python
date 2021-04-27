@@ -2,4 +2,4 @@
 for i in range(1, 90):
     if i==89:
     	print("89")
-    print("{:02d}, ".format(i),end="")
+    print("{:02d}, ".format(i), end="")
