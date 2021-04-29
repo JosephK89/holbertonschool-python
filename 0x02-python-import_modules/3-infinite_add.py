@@ -5,5 +5,5 @@ if __name__ == "__main__":
     sum = 0
     for i in range (x):
         if i >= 1:
-            sum += int(arvg[i + 1])
+            sum += int(arvg[i])
     print("{:d}".format(sum))
