@@ -3,7 +3,6 @@ if __name__ == "__main__":
     import sys
     x = len(sys.argv)
     sum = 0
-    for i in range(x):
-        if i >= 1:
-            sum += int(arvg[i])
-    print("{:d}".format(sum))
+    for i in range (1, x):
+        sum += int(sys.arvg[i])
+    print("{}".format(sum))

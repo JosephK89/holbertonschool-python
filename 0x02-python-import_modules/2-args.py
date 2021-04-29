@@ -2,7 +2,11 @@
 if __name__ == "__main__":
     import sys
     x = len(sys.argv)
-    print("{:d} {:s}{:s}".format(x - 1, "argument" if x == 1 else "arguments","." if x == 0 else ":"))
-    for i in range(x):
-        if i > 0:
-            print("{:d}: {:s}".format(i, arvg[i])
+    if x == 1:
+        print("0 arguments.")
+    elif x == 2:
+        print("1 argument:")
+    else:
+        print("{} arguments:".format(x - 1))
+    for i in range(1,x):
+        print("{}: {}".format(i, sys.argv[i]))
