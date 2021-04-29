@@ -4,5 +4,6 @@ if __name__ == "__main__":
     x = len(argv)
     sum = 0
     for i in range (x):
-        sum += int(arvg[i + 1])
+        if i >= 1:
+            sum += int(arvg[i + 1])
     print("{:d}".format(sum))
