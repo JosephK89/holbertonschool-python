@@ -4,10 +4,9 @@ def roman_to_int(roman_string):
     if type(roman_string) is not str or roman_string is None:
         return 0
     ans = 0
-    for i in range(len(roman_string)-1,-1,-1):
-        num = values[roman_string[i]]
-        if 4 * num < ans:
-            ans += num
-        else: 
-            ans += num
+    for i in range(len(roman_string)):
+        if i > 0 and values[roman_string[i]] > values[roman_string[i - 1]]:
+            ans += values[roman_string[i]] - 2 * values[roman_string[i - 1]]
+        else:
+            ans += values[roman_string[i]]
     return ans
