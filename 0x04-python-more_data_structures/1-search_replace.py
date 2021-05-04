@@ -2,10 +2,11 @@
 def search_replace(my_list, search, replace):
     if my_list is None:
         return None
-    nlist=[]
-    for i in my_list:
-        if i==search:
-            nlist.append(replace)
-        else:
-            nlist.append(i)
-    return nlist
+    else:
+        nlist=[]
+        for i in my_list:
+            if i==search:
+                nlist.append(replace)
+            else:
+                nlist.append(i)
+        return nlist
