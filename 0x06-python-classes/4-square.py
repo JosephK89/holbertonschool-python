@@ -7,7 +7,7 @@ class Square:
     def __init__(self, size=0):
         self.size = size
 
-    def area(self):
+    def size(self):
         """area function"""
         return (self.__size)**2
     
