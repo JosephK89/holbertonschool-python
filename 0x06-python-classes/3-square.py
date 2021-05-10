@@ -14,4 +14,3 @@ class Square:
         """area function"""
         a = (self.__size) ** 2
         return a
-        
