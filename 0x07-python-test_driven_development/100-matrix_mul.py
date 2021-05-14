@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """
-matrix_mul module
+matrix module
 """
 
 
 def matrix_mul(m_a, m_b):
-    """return the multiplication of 2 matrices"""
+    """matrix fct"""
     if type(m_a) is not list:
         raise TypeError("m_a must be a list")
     l1 = len(m_a)
@@ -20,7 +20,7 @@ def matrix_mul(m_a, m_b):
             if l2 == 0:
                 raise ValueError("m_a can't be empty")
         if l2 != len(i):
-            raise TypeError("each row of m_a must be of the same size")
+            raise TypeError("each row of m_a must should be of the same size")
         for j in i:
             if type(j) is not int and type(j) is not float:
                 raise TypeError("m_a should contain only integers or floats")
@@ -37,7 +37,7 @@ def matrix_mul(m_a, m_b):
             if l3 == 0:
                 raise ValueError("m_b can't be empty")
         if l3 != len(i):
-            raise TypeError("each row of m_b must be of the same size")
+            raise TypeError("each row of m_b must should be of the same size")
         for j in i:
             if type(j) is not int and type(j) is not float:
                 raise TypeError("m_b should contain only integers or floats")
