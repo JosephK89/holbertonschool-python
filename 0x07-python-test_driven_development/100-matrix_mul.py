@@ -30,10 +30,10 @@ def matrix_mul(m_a, m_b):
             raise TypeError("m_b should contain only integers or floats")
     len_rows = list(map(lambda x: len(x), [x for x in m_a]))
     if len_rows.count(len_rows[0]) != len(len_rows):
-        raise TypeError("each row of m_a must should be of the same size")
+        raise TypeError("each row of m_a must be of the same size")
     len_rows = list(map(lambda x: len(x), [x for x in m_b]))
     if len_rows.count(len_rows[0]) != len(len_rows):
-        raise TypeError("each row of m_b must should be of the same size")
+        raise TypeError("each row of m_b must be of the same size")
     if len(m_a[0]) != len(m_b):
         raise ValueError("m_a and m_b can't be multiplied")
 
