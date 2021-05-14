@@ -1,12 +1,11 @@
 #!/usr/bin/python3
-
 """
-This module contains matrix_mul functions
+matrix module
 """
 
 
 def matrix_mul(m_a, m_b):
-    """multiply 2 matrix"""
+    """matrix fct"""
     if not isinstance(m_a, list):
         raise TypeError('m_a must be a list')
     if not isinstance(m_b, list):
