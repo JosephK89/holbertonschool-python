@@ -17,6 +17,10 @@ Checking for function docstring:
          >>> len(f) > 1
          True
 
+Checking one argument:
+	 >>> add_integer(1)
+	 99
+
 Checking regular addition:
 	 >>> add_integer(2, 3)
 	 5
