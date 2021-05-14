@@ -4,39 +4,6 @@
 """
 
 
-def transpose(matrix):
-    """ transpose a matrix """
-    new_matrix = []
-    for column in matrix[0]:
-        new_matrix.append([])
-    for row in matrix:
-        for index, item in enumerate(row):
-            new_matrix[index].append(item)
-    return new_matrix
-
-
-def dot_product(row_a, row_b):
-    """ multiply dot 2 matrix """
-    sum = 0
-    for index, item in enumerate(row_a):
-        sum += item * row_b[index]
-    return sum
-
-
-def mult(m_a, m_b):
-    """ multiply a matrix """
-    t_b = transpose(m_b)
-    new_matrix = []
-    for row in m_a:
-        new_matrix.append([])
-    result = 0
-    for index_a, row_a in enumerate(m_a):
-        for index_b, row_b in enumerate(t_b):
-            result = dot_product(row_a, row_b)
-            new_matrix[index_a].append(result)
-    return new_matrix
-
-
 def matrix_mul(m_a, m_b):
     """ matrix produc """
     a_list_error = "m_a must be a list"
