@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """
-matrix module
+Module 100-matrix multiplication
 """
 
 
 def matrix_mul(m_a, m_b):
     """
-    matrix fct
+    returns a matrix of the multiplication of m_a and m_b
     """
     if not isinstance(m_a, list):
         raise TypeError("m_a must be a list")
@@ -44,10 +44,10 @@ def matrix_mul(m_a, m_b):
         if len(row) != len(m_b):
             raise ValueError("m_a and m_b can't be multiplied")
 
-    matrix = [[0 for i in range(len(m_b[0]))] for j in range(len(m_a))]
+    new_matrix = [[0 for i in range(len(m_b[0]))] for j in range(len(m_a))]
     for i in range(len(m_a)):
         for j in range(len(m_b[0])):
             for k in range(len(m_b)):
-                matrix[i][j] += m_a[i][k] * m_b[k][j]
+                new_matrix[i][j] += m_a[i][k] * m_b[k][j]
 
-    return matrix
+    return new_matrix
