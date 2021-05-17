@@ -6,10 +6,11 @@ rectangle module
 
 class Rectangle:
     """rectangle class"""
+    
     def __init__(self, width=0, height=0):
         """rectangle"""
-        self.height = height
         self.width = width
+        self.height = height
         
     @property
     def width(self):
