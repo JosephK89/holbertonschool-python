@@ -53,8 +53,6 @@ class Rectangle:
         """returns the rectangle"""
         string = ""
         if self.__width != 0 and self.__height != 0:
-            for i in range(self.__height):
-                for j in range(self.__width):
-                    string += "#"
-                string += "\n"
+            string += "\n".join("#" * self.__width
+                                for j in range(self.__height))
         return string
