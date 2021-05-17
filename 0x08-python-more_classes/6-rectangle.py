@@ -6,9 +6,9 @@ rectangle module
 
 class Rectangle:
     """rectangle class"""
-    
+
     number_of_instances = 0
-    
+
     def __init__(self, width=0, height=0):
         """rectangle"""
         self.width = width
@@ -64,7 +64,7 @@ class Rectangle:
     def __repr__(self):
         """repr"""
         return "Rectangle({:d}, {:d})".format(self.__width, self.__height)
-
+    
     def __del__(self):
         """delete"""
         print("Bye rectangle...")
