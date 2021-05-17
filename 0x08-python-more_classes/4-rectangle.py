@@ -59,4 +59,7 @@ class Rectangle:
         
     def __repr__(self):
         """repr"""
-        return("Rectangle({:d}, {:d})".format(self.__width, self.__height))
+        string = ""
+        if self.__width != 0 and self.__height != 0:
+            return "Rectangle({:d}, {:d})".format(self.__width, self.__height)
+        return string
