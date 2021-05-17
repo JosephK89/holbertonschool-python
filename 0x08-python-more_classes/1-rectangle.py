@@ -6,6 +6,7 @@ rectangle module
 
 class Rectangle:
     """rectangle class"""
+        
     @property
     def width(self):
         """getter"""
@@ -33,8 +34,8 @@ class Rectangle:
         if value < 0:
             raise ValueError("height must be >= 0")
         self.__height = value
-    
+       
     def __init__(self, width=0, height=0):
         """rectangle"""
-        self.height = height
         self.width = width
+        self.height = height
