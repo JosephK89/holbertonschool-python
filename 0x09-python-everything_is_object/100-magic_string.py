@@ -1,4 +1,4 @@
 #!/usr/bin/python3
-def magic_string(x):
-    x += 1
-    return str("Holberton, " * (x - 1)) + "Holberton"
+def magic_string(i=[0]):
+    i[0] += 1
+    return str("Holberton, " * (i[0] - 1)) + "Holberton"
