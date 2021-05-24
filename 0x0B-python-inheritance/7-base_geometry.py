@@ -5,11 +5,11 @@ basegeometry module
 
 
 class BaseGeometry:
-    """BaseGeometry class"""
+    """basegeometry class"""
     def area(self):
         """exception"""
         raise Exception("area() is not implemented")
-    
+
     def integer_validator(self, name, value):
         """integer_validator fct"""
         if type(value) is not int:
