@@ -3,7 +3,7 @@
 square module
 """
 
-BaseGeometry = __import__('9-rectangle').Rectangle
+Rectangle = __import__('9-rectangle').Rectangle
 
 
 class Square(Rectangle):
@@ -15,5 +15,5 @@ class Square(Rectangle):
         self.__size = size
         
     def area(self):
-        """returns the area of the square"""
+        """"returns the area of the square"""
         return self.__size ** 2
