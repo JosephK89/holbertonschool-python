@@ -1,0 +1,22 @@
+The ``1-my_list`` module
+======================
+
+Using ``MyList``
+-------------------
+
+Importing the function from the module:
+        >>> MyList = __import__("1-my_list").MyList
+
+>>> l=MyList()
+>>> l.print_sorted()
+[]
+>>> l.append(1)
+>>> l.append(2)
+>>> print(l)
+[1, 2]
+>>> l.print_sorted()
+[1, 2]
+>>> l.append(-1)
+>>> l.append(-2)
+>>> l.print_sorted()
+[-2, -1 , 1 , 2]
