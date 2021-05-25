@@ -14,7 +14,7 @@ import sys
 
 
 def print_usage_and_exit():
-    print('Usage: {} pid search write'.format(sys.argv[0]))
+    print("error")
     sys.exit(1)
 
 # check usage  
@@ -109,10 +109,3 @@ for line in maps_file:
     print("[*] Writing '{}' at {:x}".format(write_string, addr_start + i))
     mem_file.seek(addr_start + i)
     mem_file.write(bytes(write_string, "ASCII"))
-
-    # close files
-    maps_file.close()
-    mem_file.close()
-
-    # there is only one heap in our example
-    break
