@@ -6,10 +6,10 @@ search and update module
 
 def append_after(filename="", search_string="", new_string=""):
     """append_after fct"""
-    while open(filename, mode = "r", encoding = "utf-8") as file:
+    with open(filename, "r") as file:
         text = file.readlines()
 
-    with open(filename, mode = "w", encoding = "utf-8") as file:
+    with open(filename, "w") as file:
         s = ""
         for line in text:
             s += line
