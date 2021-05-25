@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''             
+"""          
 Locates and replaces the first occurrence of a string in the heap
 of a process    
 
@@ -9,9 +9,9 @@ Where:
 - search_string is the ASCII string you are looking to overwrite
 - replace_by_string is the ASCII string you want to replace
   search_string with
-'''
-
+"""
 import sys
+
 
 def print_usage_and_exit():
     print('Usage: {} pid search write'.format(sys.argv[0]))
