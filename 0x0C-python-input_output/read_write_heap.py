@@ -5,7 +5,6 @@ read write heap module
 import sys
 
 
-#check usage
 if len(sys.argv) != 4:
     print("Usage: read_write_heap.py pid search_string replace_string")
     sys.exit(1)
@@ -17,7 +16,6 @@ write_string = sys.argv[3]
 maps = "/proc/" + pid + "/maps"
 print("[*] maps: {}".format(maps))
 
-#try opening maps file
 try:
     with open(maps, "r") as maps_f:
         for line in maps_f:
@@ -30,7 +28,6 @@ try:
                     sys.exit(0)
 
                 sline = line.split(' ')
-                #parse line
                 addr = sline[0]
                 perm = sline[1]
                 offset = sline[2]
@@ -58,15 +55,13 @@ except IOError as e:
     print("        I/O error({}): {}".format(e.errno, e.strerror))
     sys.exit(1)
 
-#open and read mem
 mem = "/proc/" + pid + "/mem"
 print("[*] mem: {}".format(mem))
 try:
     with open(mem, 'rb+') as mem_file:
-        #read heap
         mem_file.seek(addr_start)
         heap = mem_file.read(addr_end - addr_start)
-        #find string
+
         try:
             i = heap.index(bytes(search_string, "ASCII"))
         except Exception:
