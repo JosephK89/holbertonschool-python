@@ -6,383 +6,304 @@ base unittest
 import unittest
 import os
 from models.base import Base
-from models.rectangle import Rectangle
-from models.square import Square
 
 
-class TestBase(unittest.TestCase):
-    """Test class for Base class."""
+class BaseTest(unittest.TestCase):
+    """Tests for base class."""
 
     def setUp(self):
         Base._Base__nb_objects = 0
 
-    def test_1_0(self):
-        """Create new instances: check for id."""
-
-        b0 = Base()
-        self.assertEqual(b0.id, 1)
+    def test_00_correct_id(self):
+        """Test for correct id attribute."""
         b1 = Base()
-        self.assertEqual(b1.id, 2)
-        b2 = Base(12)
-        self.assertEqual(b2.id, 12)
-        b3 = Base(0)
-        self.assertEqual(b3.id, 0)
-        b4 = Base(927)
-        self.assertEqual(b4.id, 927)
-        b5 = Base(-5)
-        self.assertEqual(b5.id, -5)
-        b6 = Base(9)
-        self.assertEqual(b6.id, 9)
+        b2 = Base()
+        b3 = Base()
+        self.assertEqual(b1.id, 1)
+        self.assertEqual(b2.id, 2)
+        self.assertEqual(b3.id, 3)
 
-    def test_1_1(self):
-        """Test for type and instance."""
+    def test_01_custom_id(self):
+        """Test for custom id."""
+        b = Base(98)
+        self.assertEqual(b.id, 98)
 
-        b6 = Base()
-        self.assertEqual(type(b6), Base)
-        self.assertTrue(isinstance(b6, Base))
+    def test_02_correct_id_after_custom(self):
+        """Test for no id after a custom entry."""
+        b = Base()
+        self.assertEqual(b.id, 1)
 
-    def test_15_0(self):
-        """Test static method to_json_string with regular dict."""
+    def test_03_string_input(self):
+        """Test for string input."""
+        b = Base("hello")
+        self.assertEqual(b.id, "hello")
 
-        d = {'x': 2, 'width': 10, 'id': 1, 'height': 7, 'y': 8}
-        json_d = Base.to_json_string([d])
-        self.assertTrue(isinstance(d, dict))
-        self.assertTrue(isinstance(json_d, str))
-        self.assertCountEqual(
-            json_d, '[{"x": 2, "width": 10, "id": 1, "height": 7, "y": 8}]')
-        json_d_1 = Base.to_json_string([])
-        self.assertEqual(json_d_1, "[]")
-        json_d_2 = Base.to_json_string(None)
-        self.assertEqual(json_d_1, "[]")
+    def test_04_none_input(self):
+        """Test for None input."""
+        b = Base(None)
+        self.assertEqual(b.id, 1)
 
-    def test_15_1(self):
-        """Test static method to_json_string with wrong types."""
+    def test_05_zero_input(self):
+        """Test for zero input."""
+        b = Base(0)
+        self.assertEqual(b.id, 0)
 
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string(9)
+    def test_06_negative_input(self):
+        """Test for negative input."""
+        b = Base(-5)
+        self.assertEqual(b.id, -5)
+
+    def test_07_list_input(self):
+        """Test for list input."""
+        b = Base([1, 2, 3])
+        self.assertEqual(b.id, [1, 2, 3])
+
+    def test_08_dict_input(self):
+        """Test for dict input."""
+        b = Base({"hello": "world"})
+        self.assertEqual(b.id, {"hello": "world"})
+
+    def test_09_float_input(self):
+        """Test for float input."""
+        b = Base(9.1)
+        self.assertEqual(b.id, 9.1)
+
+    def test_10_tuple_input(self):
+        """Test for tuple input."""
+        b = Base((1,))
+        self.assertEqual(b.id, (1,))
+
+    def test_1A_class_type(self):
+        """Test for correct class type."""
+        b = Base()
+        self.assertEqual(str(type(b)), "<class 'models.base.Base'>")
+        self.assertEqual(b.__dict__, {"id": 1})
+
+    def test_1B_private_id(self):
+        """Test to make sure nb__objects is private."""
+        b = Base(1)
+        with self.assertRaises(Exception) as e:
+            print(b.nb__objects)
         self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string("Hello")
-        self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string(["Hi", "Here"])
-        self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string(7.8)
-        self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string([2, 1, 3, 4])
-        self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string({1: 'hi', 2: 'there'})
-        self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string((9, 0))
-        self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string(True)
-        self.assertEqual(
-            "list_dictionaries must be a list of dictionaries", str(
-                x.exception))
+            "'Base' object has no attribute 'nb__objects'",
+            str(e.exception))
 
-    def test_15_2(self):
-        """Test static method to_json_string with wrong number of args."""
+    def test_1C_json_none(self):
+        """Test for none in to_json_string."""
+        res = Base.to_json_string(None)
+        self.assertEqual(res, "[]")
 
-        s1 = ("to_json_string() missing 1 required positional argument: " +
-              "'list_dictionaries'")
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string()
-        self.assertEqual(s1, str(x.exception))
-        s2 = "to_json_string() takes 1 positional argument but 2 were given"
-        with self.assertRaises(TypeError) as x:
-            Base.to_json_string([{1, 2}], [{3, 4}])
-        self.assertEqual(s2, str(x.exception))
+    def test_1D_json_empty_list(self):
+        """Test for empty list to_json_string."""
+        res = Base.to_json_string([])
+        self.assertEqual(res, "[]")
 
-    def test_16_0(self):
-        """Test class method save_to_file with normal types."""
+    def test_1Da_json_no_args(self):
+        """Test for no args to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string()
+        self.assertEqual("to_json_string() missing 1 required positional " +
+                         "argument: 'list_dictionaries'", str(e.exception))
 
-        r0 = Rectangle(10, 7, 2, 8)
-        r1 = Rectangle(2, 4)
-        Rectangle.save_to_file([r0, r1])
-        res = ('[{"y": 8, "x": 2, "id": 1, "width": 10, "height": 7},' +
-               ' {"y": 0, "x": 0, "id": 2, "width": 2, "height": 4}]')
-        with open("Rectangle.json", "r") as f:
-            self.assertEqual(len(f.read()), len(res))
-        Rectangle.save_to_file(None)
-        res = "[]"
-        with open("Rectangle.json", "r") as f:
-            self.assertEqual(f.read(), res)
-        os.remove("Rectangle.json")
-        Rectangle.save_to_file([])
-        with open("Rectangle.json", "r") as f:
-            self.assertEqual(f.read(), res)
-        s0 = Square(9, 3, 1, 12)
-        s1 = Square(6, 7)
-        Square.save_to_file([s0, s1])
-        res = ('[{"id": 12, "size": 9, "x": 3, "y": 1},' +
-               ' {"id": 3, "size": 6, "x": 7, "y": 0}]')
-        with open("Square.json", "r") as f:
-            self.assertEqual(len(f.read()), len(res))
-        Square.save_to_file(None)
-        res = "[]"
-        with open("Square.json", "r") as f:
-            self.assertEqual(f.read(), res)
-        os.remove("Square.json")
-        Square.save_to_file([])
-        with open("Square.json", "r") as f:
-            self.assertEqual(f.read(), res)
+    def test_1E_json_str(self):
+        """Test for string in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string("loki")
+        self.assertEqual("list_dictionaries must be a list",
+                         str(e.exception))
 
-    def test_16_1(self):
-        """Test class method save_to_file with errors."""
+    def test_1F_json_bool(self):
+        """Test for bool in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string(True)
+        self.assertEqual("list_dictionaries must be a list",
+                         str(e.exception))
 
-        with self.assertRaises(AttributeError) as x:
-            Base.save_to_file([Base(9), Base(5)])
-        self.assertEqual(
-            "'Base' object has no attribute 'to_dictionary'", str(
-                x.exception))
-        with self.assertRaises(AttributeError) as x:
-            Rectangle.save_to_file([3, 4])
-        self.assertEqual(
-            "'int' object has no attribute 'to_dictionary'", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Rectangle.save_to_file(5)
-        self.assertEqual(
-            "'int' object is not iterable", str(
-                x.exception))
+    def test_20_json_dict(self):
+        """Test for dict in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string({"a": 1})
+        self.assertEqual("list_dictionaries must be a list",
+                         str(e.exception))
 
-    def test_16_2(self):
-        """Test class method save_to_file with wrong args."""
+    def test_21_json_int(self):
+        """Test for int in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string(1)
+        self.assertEqual("list_dictionaries must be a list",
+                         str(e.exception))
 
-        s1 = ("save_to_file() missing 1 required" +
-              " positional argument: 'list_objs'")
-        with self.assertRaises(TypeError) as x:
-            Rectangle.save_to_file()
-        self.assertEqual(s1, str(x.exception))
-        s2 = ("save_to_file() takes 2 positional" +
-              " arguments but 3 were given")
-        with self.assertRaises(TypeError) as x:
-            Rectangle.save_to_file([Rectangle(9, 4), Rectangle(8, 9)], 98)
-        self.assertEqual(s2, str(x.exception))
+    def test_22_json_set(self):
+        """Test for set in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string({1, 2})
+        self.assertEqual("list_dictionaries must be a list",
+                         str(e.exception))
 
-    def test_17_0(self):
-        """Test static method from_json_string with normal types."""
+    def test_23_json_float(self):
+        """Test for float in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string(2.98)
+        self.assertEqual("list_dictionaries must be a list",
+                         str(e.exception))
 
-        list_input = [
-            {'id': 89, 'width': 10, 'height': 4},
-            {'id': 7, 'width': 1, 'height': 7}
-        ]
-        json_list_input = Rectangle.to_json_string(list_input)
-        list_output = Rectangle.from_json_string(json_list_input)
-        res = [{'width': 10, 'height': 4, 'id': 89},
-               {'width': 1, 'height': 7, 'id': 7}]
-        self.assertCountEqual(list_output, res)
-        self.assertEqual(type(list_output), list)
+    def test_24_json_list_of_wrong_type(self):
+        """Test for wrong types in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string([1, 3, 4])
+        self.assertEqual("list_dictionaries must contain dictionaries",
+                         str(e.exception))
 
-        list_output_1 = Rectangle.from_json_string('')
-        self.assertEqual(list_output_1, [])
+    def test_25_json_list_of_mixed_types(self):
+        """Test for mixed types in to_json_string."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.to_json_string([{"a": 1}, 5.4])
+        self.assertEqual("list_dictionaries must contain dictionaries",
+                         str(e.exception))
 
-        list_output_2 = Rectangle.from_json_string(None)
-        self.assertEqual(list_output_2, [])
+    def test_26_json_list_of_multiple_dicts(self):
+        """Test for multiple dicts in to_json_string."""
+        res = Base.to_json_string([{"a": 1}, {"b": 2}])
+        self.assertEqual(type(res), str)
 
-    def test_17_1(self):
-        """Test static method from_json_string with wrong types."""
+    def test_27_json_list_of_empty_dict(self):
+        """Test for empty dict in to_json_string."""
+        res = Base.to_json_string([{}])
+        self.assertEqual(res, "[{}]")
 
-        with self.assertRaises(TypeError) as x:
-            list_output = Rectangle.from_json_string([8, 9])
-        self.assertEqual("json_string must be a string", str(x.exception))
-        with self.assertRaises(TypeError) as x:
-            list_output = Rectangle.from_json_string(8)
-        self.assertEqual("json_string must be a string", str(x.exception))
-        with self.assertRaises(TypeError) as x:
-            list_output = Rectangle.from_json_string(9.6)
-        self.assertEqual("json_string must be a string", str(x.exception))
-        with self.assertRaises(TypeError) as x:
-            list_output = Rectangle.from_json_string((4, 5))
-        self.assertEqual("json_string must be a string", str(x.exception))
-        with self.assertRaises(TypeError) as x:
-            list_output = Rectangle.from_json_string({1: 'Hello', 2: 'Hi'})
-        self.assertEqual("json_string must be a string", str(x.exception))
+    def test_27a_save_to_file_no_args(self):
+        """Test for no args in save_to_file."""
+        with self.assertRaises(TypeError) as e:
+            res = Base.save_to_file()
+        self.assertEqual("save_to_file() missing 1 required positional " +
+                         "argument: 'list_objs'", str(e.exception))
 
-    def test_17_2(self):
-        """Test static method from_json_string with wrong args."""
+    def test_28_save_None_to_file(self):
+        """Test for save_to_file method with None."""
+        Base.save_to_file(None)
+        with open("Base.json", "r") as file:
+            self.assertEqual(file.read(), "[]")
 
-        s1 = ("from_json_string() missing 1" +
-              " required positional argument: 'json_string'")
-        with self.assertRaises(TypeError) as x:
-            Rectangle.from_json_string()
-        self.assertEqual(s1, str(x.exception))
-        s2 = "from_json_string() takes 1 positional argument but 2 were given"
-        with self.assertRaises(TypeError) as x:
-            Rectangle.from_json_string("Hi", 98)
-        self.assertEqual(s2, str(x.exception))
+    def test_29_save_empty_list_to_file(self):
+        """Test for save_to_file method with empty list."""
+        Base.save_to_file([])
+        with open("Base.json", "r") as file:
+            self.assertEqual(file.read(), "[]")
 
-    def test_18_0(self):
-        """Test class method create with normal types."""
+    def test_2A_save_str_to_file(self):
+        """Test for save_to_file method with str."""
+        with self.assertRaises(TypeError) as e:
+            Base.save_to_file("hello")
+        self.assertEqual("list_objs must be a list",
+                         str(e.exception))
 
-        r1 = Rectangle(3, 5, 1)
-        r1_dictionary = r1.to_dictionary()
-        r2 = Rectangle.create(**r1_dictionary)
-        self.assertEqual(str(r1), str(r2))
-        self.assertFalse(r1 is r2)
-        self.assertFalse(r1 == r2)
-        s1 = Square(3, 5)
-        s1_dictionary = s1.to_dictionary()
-        s2 = Square.create(**s1_dictionary)
-        self.assertEqual(str(s1), str(s2))
-        self.assertFalse(s1 is s2)
-        self.assertFalse(s1 == s2)
+    def test_2B_save_dict_to_file(self):
+        """Test for save_to_file method with dict."""
+        with self.assertRaises(TypeError) as e:
+            Base.save_to_file({"a": 1})
+        self.assertEqual("list_objs must be a list",
+                         str(e.exception))
 
-    def test_18_1(self):
-        """Test class method create with wrong types."""
+    def test_2C_save_int_to_file(self):
+        """Test for save_to_file method with integer."""
+        with self.assertRaises(TypeError) as e:
+            Base.save_to_file(1)
+        self.assertEqual("list_objs must be a list",
+                         str(e.exception))
 
-        with self.assertRaises(TypeError) as x:
-            r1 = "Hello"
-            r2 = Rectangle.create(r1)
-        self.assertEqual(
-            "create() takes 1 positional argument but 2 were given", str(
-                x.exception))
+    def test_2D_save_float_to_file(self):
+        """Test for save_to_file method with float."""
+        with self.assertRaises(TypeError) as e:
+            Base.save_to_file(1.0)
+        self.assertEqual("list_objs must be a list",
+                         str(e.exception))
 
-    def test_19_0(self):
-        """Test class method load_from_file with normal types."""
+    def test_2E_save_set_to_file(self):
+        """Test for save_to_file method with set."""
+        with self.assertRaises(TypeError) as e:
+            Base.save_to_file({1, 2})
+        self.assertEqual("list_objs must be a list",
+                         str(e.exception))
 
-        r1 = Rectangle(10, 7, 2, 8)
-        r2 = Rectangle(2, 4)
-        list_rectangles_input = [r1, r2]
-        Rectangle.save_to_file(list_rectangles_input)
-        list_rectangles_output = Rectangle.load_from_file()
-        for x in zip(list_rectangles_input, list_rectangles_output):
-            self.assertEqual(str(x[0]), str(x[1]))
+    def test_2F_save_bool_to_file(self):
+        """Test for save_to_file method with bool."""
+        with self.assertRaises(TypeError) as e:
+            Base.save_to_file(True)
+        self.assertEqual("list_objs must be a list",
+                         str(e.exception))
 
-        s1 = Square(10, 2)
-        s2 = Square(9)
-        list_squares_input = [s1, s2]
-        Square.save_to_file(list_squares_input)
-        list_squares_output = Square.load_from_file()
-        for x in zip(list_squares_input, list_squares_output):
-            self.assertEqual(str(x[0]), str(x[1]))
+    def test_30_from_json_string_None(self):
+        """Test for from_json_method with None."""
+        list_output = Base.from_json_string(None)
+        self.assertEqual(list_output, [])
 
-    def test_19_1(self):
-        """Test class method load_from_file with missing files."""
+    def test_31_from_json_string_empty_string(self):
+        """Test for from_json_method with empty string."""
+        list_output = Base.from_json_string("")
+        self.assertEqual(list_output, [])
 
-        if os.path.exists("Rectangle.json"):
-            os.remove("Rectangle.json")
-        if os.path.exists("Square.json"):
-            os.remove("Square.json")
-        if os.path.exists("Base.json"):
-            os.remove("Base.json")
-        list_rectangles_output = Rectangle.load_from_file()
-        self.assertEqual(list_rectangles_output, [])
-        list_squares_output = Square.load_from_file()
-        self.assertEqual(list_squares_output, [])
+    def test_31a_from_json_string_no_arg(self):
+        """Test for from_json_method with no args."""
+        with self.assertRaises(TypeError) as e:
+            list_output = Base.from_json_string()
+        self.assertEqual("from_json_string() missing 1 required positional " +
+                         "argument: 'json_string'",
+                         str(e.exception))
 
-    def test_19_2(self):
-        """Test class method load_from_file with wrong args."""
+    def test_32_from_json_string_list(self):
+        """Test for from_json_method with list."""
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string([1, 2, 3])
+        self.assertEqual("json_string must be a string",
+                         str(e.exception))
 
-        s = "load_from_file() takes 1 positional argument but 2 were given"
-        with self.assertRaises(TypeError) as x:
-            list_rectangles_output = Rectangle.load_from_file("Hello")
-        self.assertEqual(s, str(x.exception))
+    def test_33_from_json_string_dict(self):
+        """Test for from_json_method with dict."""
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string({"a": 1})
+        self.assertEqual("json_string must be a string",
+                         str(e.exception))
 
-    def test_20_0(self):
-        """Test class method save_to_file_csv with normal types."""
+    def test_34_from_json_string_int(self):
+        """Test for from_json_method with int."""
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string(1)
+        self.assertEqual("json_string must be a string",
+                         str(e.exception))
 
-        r0 = Rectangle(10, 7, 2, 8)
-        r1 = Rectangle(2, 4)
-        Rectangle.save_to_file_csv([r0, r1])
-        res = "id,width,height,x,y\n1,10,7,2,8\n2,2,4,0,0\n"
-        with open("Rectangle.csv", "r") as f:
-            self.assertEqual(len(f.read()), len(res))
-        s0 = Square(9, 3, 1, 12)
-        s1 = Square(6, 7)
-        Square.save_to_file_csv([s0, s1])
-        res = "id,size,x,y\n12,9,3,1\n3,6,7,0\n"
-        with open("Square.csv", "r") as f:
-            self.assertEqual(len(f.read()), len(res))
+    def test_35_from_json_string_bool(self):
+        """Test for from_json_method with bool."""
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string(False)
+        self.assertEqual("json_string must be a string",
+                         str(e.exception))
 
-    def test_20_1(self):
-        """Test class method save_to_file_csv with errors."""
+    def test_36_from_json_string_float(self):
+        """Test for from_json_method with float."""
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string(8.7)
+        self.assertEqual("json_string must be a string",
+                         str(e.exception))
 
-        with self.assertRaises(AttributeError) as x:
-            Base.save_to_file_csv([Base(9), Base(5)])
-        self.assertEqual(
-            "'Base' object has no attribute 'to_dictionary'", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Rectangle.save_to_file_csv([3, 4])
-        self.assertEqual(
-            "list_objs must be a list of instances", str(
-                x.exception))
-        with self.assertRaises(TypeError) as x:
-            Rectangle.save_to_file_csv(5.9)
-        self.assertEqual(
-            "list_objs must be a list of instances", str(
-                x.exception))
+    def test_37_from_json_string_set(self):
+        """Test for from_json_method with set."""
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string({1, 2})
+        self.assertEqual("json_string must be a string",
+                         str(e.exception))
 
-    def test_20_2(self):
-        """Test class method save_to_file_csv with wrong args."""
+    def test_38_from_json_string_non_dicts(self):
+        """Test for from_json_method with empty_dicts."""
+        list_input = [{}, {}]
+        json_list_input = Base.to_json_string(list_input)
+        list_output = Base.from_json_string(json_list_input)
+        self.assertEqual(list_output, [{}, {}])
 
-        s1 = ("save_to_file_csv() missing 1 required" +
-              " positional argument: 'list_objs'")
-        with self.assertRaises(TypeError) as x:
-            Rectangle.save_to_file_csv()
-        self.assertEqual(s1, str(x.exception))
-        s2 = "save_to_file_csv() takes 2 positional arguments but 3 were given"
-        with self.assertRaises(TypeError) as x:
-            Rectangle.save_to_file_csv([Rectangle(9, 4), Rectangle(8, 9)], 98)
-        self.assertEqual(s2, str(x.exception))
-
-    def test_20_3(self):
-        """Test class method load_from_file_csv with normal types."""
-
-        r1 = Rectangle(10, 7, 2, 8)
-        r2 = Rectangle(2, 4)
-        list_rectangles_input = [r1, r2]
-        Rectangle.save_to_file_csv(list_rectangles_input)
-        list_rectangles_output = Rectangle.load_from_file_csv()
-        for x in zip(list_rectangles_input, list_rectangles_output):
-            self.assertEqual(str(x[0]), str(x[1]))
-
-        s1 = Square(10, 2)
-        s2 = Square(9)
-        list_squares_input = [s1, s2]
-        Square.save_to_file_csv(list_squares_input)
-        list_squares_output = Square.load_from_file_csv()
-        for x in zip(list_squares_input, list_squares_output):
-            self.assertEqual(str(x[0]), str(x[1]))
-
-    def test_20_4(self):
-        """Test class method load_from_file_csv with missing files."""
-
-        os.remove("Rectangle.csv")
-        os.remove("Square.csv")
-        os.remove("Base.csv")
-        list_rectangles_output = Rectangle.load_from_file_csv()
-        self.assertEqual(list_rectangles_output, [])
-        list_squares_output = Square.load_from_file_csv()
-        self.assertEqual(list_squares_output, [])
-
-    def test_20_5(self):
-        """Test class method load_from_file_csv with wrong args."""
-
-        s = "load_from_file_csv() takes 1 positional argument but 2 were given"
-        with self.assertRaises(TypeError) as x:
-            list_rectangles_output = Rectangle.load_from_file_csv("Hello")
-        self.assertEqual(s, str(x.exception))
+    def test_39_load_from_files(self):
+        """Test for load_from_files."""
+        os.remove("Base.json")
+        base_list = Base.load_from_file()
+        self.assertEqual(base_list, [])
 
 if __name__ == '__main__':
     unittest.main()
