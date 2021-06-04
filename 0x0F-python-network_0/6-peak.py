@@ -6,7 +6,7 @@ find peak module
 
 def find_peak(list_of_integers):
     """find_peak fct."""
-    if list_of_integers is None:
+    if not list_of_integers:
         return None
     start = 0
     end = len(list_of_integers) - 1
