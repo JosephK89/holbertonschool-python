@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-takes in a url and an email address, sends a post request to the passed url with the email as a parameter, and finally displays the body of the response
+takes in a url and an email address, sends a post request to the passed url with the email as a parameter, and finally display the body of the response
 """
 import requests
 import sys
