@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-"""
-Takes in Github credentials (username and password) and uses the Github API to display an id
-"""
+"""Takes in Github credentials (username and password) and uses the Github API
+to display an id"""
 
 
 if __name__ == "__main__":
