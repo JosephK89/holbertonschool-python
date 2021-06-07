@@ -8,7 +8,7 @@ import sys
 
 if __name__ == "__main__":
     r = request.get("https://api.github.com/user", auth=(sys.argv[1], sys.argv[2]))
-    if r.status_code >= 400:
-        print("None")
+    if "json" not in r.headers.get("content-type"):
+	print("Not a valid JSON")
     else:
         print(r.json().get("id"))
