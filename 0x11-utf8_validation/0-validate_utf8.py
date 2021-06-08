@@ -6,10 +6,10 @@ utf8 validation
 
 def validUTF8(data):
     """validUTF8 function"""
-    bytes = 0;
+    bytes = 0
     for num in data:
-        bin_rep = format(num, '#010b')[-8:]
-        if byte == 0:
+        bin_rep = format(x, '#010b')[-8:]
+        if bytes == 0:
             for bit in bin_rep:
                 if bit == '0':
                     break
