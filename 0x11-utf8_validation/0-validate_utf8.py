@@ -6,23 +6,20 @@ utf8 validation
 
 def validUTF8(data):
     """validUTF8 function"""
-    c = 0;
-    for byte in data:
-        if 128 <= byte <=191:
-            if c == 0:
-                return False
-            c -= 1
-        else:
-            if c:
-                return False
-            if byte < 128:
+    bytes = 0;
+    for num in data:
+        bin_rep = format(num, "#010b")[-8:]
+        if byte == 0:
+            for bit in bin_rep:
+                if bit == "0":
+                    break
+                bytes += 1
+            if bytes == 0:
                 continue
-            elif byte < 224:
-                c = 1
-            elif byte < 240:
-                c = 2
-            elif byte < 248:
-                c = 3
-            else:
+            if bytes == 1 or bytes > 4:
                 return False
-    return c == 0
+        else:
+            if not (bin_rep[0] == "1" and bin_rep[1] == "0"):
+                return False
+        bytes -= 1
+    return bytes == 0
