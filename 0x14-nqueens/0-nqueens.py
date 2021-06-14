@@ -26,20 +26,20 @@ if __name__ == "__main__":
             print(sol)
         else:
             for col in range(n):
-                placement = [row, col]
-                if issafe(sol, placement):
-                    sol.append(placement)
+                place = [row, col]
+                if valid_placement(sol, place):
+                    sol.append(place)
                     queens(row + 1, n, sol)
-                    sol.remove(placement)
+                    sol.remove(place)
 
-    def issafe(sol, placement):
+    def valid_placement(sol, place):
         for queen in sol:
-            if queen[1] == placement[1]:
+            if queen[1] == place[1]:
                 return False
-            if queen[0] + queen[1] == placement[0] + placement[1]:
+            if queen[0] + queen[1] == place[0] + place[1]:
                 return False
-            if queen[0] - queen[1] == placement[0] - placement[1]:
+            if queen[0] - queen[1] == place[0] - place[1]:
                 return False
         return True
 
-    solve_queens(0, n, sol)
+    queens(0, n, sol)
