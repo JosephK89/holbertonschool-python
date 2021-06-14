@@ -20,6 +20,7 @@ if __name__ == "__main__":
         exit(1)
 
     sol = []
+    
     def queens(row, n, sol):
         if row == n:
             print(sol)
