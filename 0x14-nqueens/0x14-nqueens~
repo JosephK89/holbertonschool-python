@@ -1,0 +1,10 @@
+#!/usr/bin/python3
+"""
+queens
+"""
+
+
+from sys import argv, exit
+
+if __name__ == "__main__":
+
