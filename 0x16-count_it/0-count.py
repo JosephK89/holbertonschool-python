@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 import re
 import requests
 
+
 def count_words(subreddit, word_list, res=defaultdict(int), after=None):
     """count_words function"""
     headers = {"User-Agent": "api"}
