@@ -8,7 +8,7 @@ import requests
 
 def count_words(subreddit, word_list, res=defaultdict(int), after=None):
     """count_words function"""
-    headers = {"User-Agent": 'api'}
+    headers = {"User-Agent": "api"}
     url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     if after:
         url += '?after={}'.format(after)
