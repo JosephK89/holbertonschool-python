@@ -1,4 +1,3 @@
-  
 #!/usr/bin/python3
 ''' 2-lifo_cache.py '''
 
